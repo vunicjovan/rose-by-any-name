@@ -2,19 +2,25 @@ from pathlib import Path
 
 import gradio as gr
 
-from src.repository.book_repository import BookRepository
+from src.services.book_service import BookService
+from src.ui.book_form import BookForm
 from src.ui.book_grid import BookGrid
 
 
 class RoseApp:
     def __init__(self):
-        self.title = "🌹 A Rose By Any Name"
-        self.books = BookRepository.get_books()
+        self.title: str = "🌹 A Rose By Any Name"
+        self.service: BookService = BookService()
 
     def build(self) -> gr.Blocks:
         with gr.Blocks(title=self.title) as demo:
             gr.Markdown(f"## {self.title}")
-            gr.HTML(BookGrid.render(self.books))
+
+            with gr.Sidebar(open=False):
+                gr.HTML(BookForm.render(action="/add"))
+
+            gr.HTML(BookGrid.render(self.service.list()))
+
         return demo
 
     def launch(self):

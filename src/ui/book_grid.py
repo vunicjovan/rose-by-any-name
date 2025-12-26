@@ -6,8 +6,8 @@ from src.ui.book_card import BookCard
 
 class BookGrid:
     @staticmethod
-    def render(books: List[Book]) -> str:
-        cards = "".join(BookCard.render(book) for book in books)
+    def render(books: List[tuple[int, Book]]) -> str:
+        cards = "".join(BookCard.render(book) for book_id, book in books)
         return f"""
         <div class="book-grid">
             {cards}
