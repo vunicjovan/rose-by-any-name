@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add / Edit Book</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/uikit@3/dist/css/uikit.min.css"
+    />
+    <link rel="stylesheet" href="/css/rose.css" />
+  </head>
+  <body>
+    <div class="uk-container uk-margin-large-top uk-margin-large-bottom">
+      <a
+        id="back-btn"
+        href="/"
+        class="uk-button uk-button-text uk-margin-bottom"
+      >
+        <span uk-icon="arrow-left"></span> Back to list
+      </a>
+      <h1 id="page-title" class="uk-heading-small">Add Book</h1>
+
+      <form id="book-form" class="uk-form-stacked uk-margin-top" novalidate>
+        <div class="uk-grid-small uk-child-width-1-2@s" uk-grid>
+          <div>
+            <label class="uk-form-label" for="title"
+              >Title <span class="uk-text-danger">*</span></label
+            >
+            <div class="uk-form-controls">
+              <input
+                class="uk-input"
+                id="title"
+                name="title"
+                type="text"
+                required
+                placeholder="e.g. The Name of the Rose"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label class="uk-form-label" for="author"
+              >Author <span class="uk-text-danger">*</span></label
+            >
+            <div class="uk-form-controls">
+              <input
+                class="uk-input"
+                id="author"
+                name="author"
+                type="text"
+                required
+                placeholder="e.g. Umberto Eco"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label class="uk-form-label" for="print_year">Print Year</label>
+            <div class="uk-form-controls">
+              <input
+                class="uk-input"
+                id="print_year"
+                name="print_year"
+                type="number"
+                min="1"
+                placeholder="e.g. 1980"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label class="uk-form-label" for="reading_year">Reading Year</label>
+            <div class="uk-form-controls">
+              <input
+                class="uk-input"
+                id="reading_year"
+                name="reading_year"
+                type="number"
+                min="1"
+                placeholder="e.g. 2024"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label class="uk-form-label" for="number_of_pages"
+              >Number of Pages</label
+            >
+            <div class="uk-form-controls">
+              <input
+                class="uk-input"
+                id="number_of_pages"
+                name="number_of_pages"
+                type="number"
+                min="1"
+                placeholder="e.g. 502"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label class="uk-form-label" for="original_language"
+              >Original Language</label
+            >
+            <div class="uk-form-controls">
+              <input
+                class="uk-input"
+                id="original_language"
+                name="original_language"
+                type="text"
+                placeholder="e.g. Italian"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label class="uk-form-label" for="reading_language"
+              >Reading Language</label
+            >
+            <div class="uk-form-controls">
+              <input
+                class="uk-input"
+                id="reading_language"
+                name="reading_language"
+                type="text"
+                placeholder="e.g. English"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label class="uk-form-label" for="cover_photo_url"
+              >Cover Photo URL</label
+            >
+            <div class="uk-form-controls">
+              <input
+                class="uk-input"
+                id="cover_photo_url"
+                name="cover_photo_url"
+                type="url"
+                placeholder="https://..."
+              />
+            </div>
+          </div>
+
+          <div>
+            <label class="uk-form-label" for="user_rating"
+              >My Rating (0 – 10)</label
+            >
+            <div class="uk-form-controls">
+              <input
+                class="uk-input"
+                id="user_rating"
+                name="user_rating"
+                type="number"
+                min="0"
+                max="10"
+                step="0.1"
+                placeholder="e.g. 8.5"
+              />
+            </div>
+          </div>
+
+          <div class="uk-width-1-1">
+            <label class="uk-form-label" for="summary">Summary</label>
+            <div class="uk-form-controls">
+              <textarea
+                class="uk-textarea"
+                id="summary"
+                name="summary"
+                rows="5"
+                placeholder="A brief description of the book..."
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="uk-width-1-1">
+            <label class="uk-form-label" for="user_remarks">My Remarks</label>
+            <div class="uk-form-controls">
+              <textarea
+                class="uk-textarea"
+                id="user_remarks"
+                name="user_remarks"
+                rows="3"
+                placeholder="A personal note or impression..."
+              ></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div id="cover-preview-wrap" class="uk-margin" hidden>
+          <p class="uk-text-muted uk-margin-remove-bottom">Cover preview:</p>
+          <img
+            id="cover-preview"
+            src=""
+            alt="Cover preview"
+            style="max-height: 200px; margin-top: 8px; border-radius: 4px"
+          />
+        </div>
+
+        <div id="form-error" class="uk-alert-danger uk-margin" uk-alert hidden>
+          <p id="form-error-msg"></p>
+        </div>
+
+        <div class="uk-margin-top">
+          <button
+            type="submit"
+            class="uk-button uk-button-primary"
+            id="submit-btn"
+          >
+            Save Book
+          </button>
+          <a
+            id="cancel-btn"
+            href="/"
+            class="uk-button uk-button-default uk-margin-left"
+            >Cancel</a
+          >
+        </div>
+      </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3/dist/js/uikit-icons.min.js"></script>
+    <script>
+      const params = new URLSearchParams(location.search);
+      const bookId = params.get("id");
+      const form = document.getElementById("book-form");
+
+      // Live cover preview
+      const coverInput = document.getElementById("cover_photo_url");
+      const previewWrap = document.getElementById("cover-preview-wrap");
+      const previewImg = document.getElementById("cover-preview");
+
+      coverInput.addEventListener("input", () => {
+        const url = coverInput.value.trim();
+        if (url) {
+          previewImg.src = url;
+          previewWrap.hidden = false;
+        } else {
+          previewWrap.hidden = true;
+        }
+      });
+
+      function showError(msg) {
+        const box = document.getElementById("form-error");
+        document.getElementById("form-error-msg").textContent = msg;
+        box.hidden = false;
+      }
+
+      function hideError() {
+        document.getElementById("form-error").hidden = true;
+      }
+
+      function getFormData() {
+        const intOrNull = (v) => (v !== "" ? parseInt(v, 10) : null);
+        return {
+          title: form.title.value.trim(),
+          author: form.author.value.trim(),
+          print_year: intOrNull(form.print_year.value),
+          reading_year: intOrNull(form.reading_year.value),
+          number_of_pages: intOrNull(form.number_of_pages.value),
+          original_language: form.original_language.value.trim() || null,
+          reading_language: form.reading_language.value.trim() || null,
+          summary: form.summary.value.trim() || null,
+          cover_photo_url: form.cover_photo_url.value.trim() || null,
+          user_rating:
+            form.user_rating.value !== ""
+              ? parseFloat(form.user_rating.value)
+              : 0,
+          user_remarks: form.user_remarks.value.trim() || null,
+        };
+      }
+
+      function fillForm(book) {
+        form.title.value = book.title ?? "";
+        form.author.value = book.author ?? "";
+        form.print_year.value = book.print_year ?? "";
+        form.reading_year.value = book.reading_year ?? "";
+        form.number_of_pages.value = book.number_of_pages ?? "";
+        form.original_language.value = book.original_language ?? "";
+        form.reading_language.value = book.reading_language ?? "";
+        form.summary.value = book.summary ?? "";
+        form.cover_photo_url.value = book.cover_photo_url ?? "";
+        form.user_rating.value = book.user_rating ?? "";
+        form.user_remarks.value = book.user_remarks ?? "";
+        if (book.cover_photo_url) {
+          previewImg.src = book.cover_photo_url;
+          previewWrap.hidden = false;
+        }
+      }
+
+      async function init() {
+        if (bookId) {
+          document.getElementById("page-title").textContent = "Edit Book";
+          document.getElementById("submit-btn").textContent = "Update Book";
+          document.getElementById("back-btn").href =
+            `/detail.html?id=${bookId}`;
+          document.getElementById("cancel-btn").href =
+            `/detail.html?id=${bookId}`;
+          const res = await fetch(`/api/books/${bookId}`);
+          if (!res.ok) {
+            showError("Book not found.");
+            return;
+          }
+          fillForm(await res.json());
+        }
+      }
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        hideError();
+
+        const data = getFormData();
+        if (!data.title) {
+          showError("Title is required.");
+          return;
+        }
+        if (!data.author) {
+          showError("Author is required.");
+          return;
+        }
+
+        const url = bookId ? `/api/books/${bookId}` : "/api/books/";
+        const method = bookId ? "PUT" : "POST";
+
+        const res = await fetch(url, {
+          method,
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          showError(err.detail ?? "Something went wrong. Please try again.");
+          return;
+        }
+
+        location.href = bookId ? `/detail.html?id=${bookId}` : "/";
+      });
+
+      init();
+    </script>
+  </body>
+</html>

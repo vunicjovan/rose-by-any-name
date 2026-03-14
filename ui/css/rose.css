@@ -1,0 +1,222 @@
+.cover-wrap img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+}
+
+.summary-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ── Detail page ─────────────────────────────────────── */
+
+.detail-nav {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.detail-nav-logo {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  gap: 6px;
+}
+
+.detail-cover-wrap {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+  background: #f4f4f4;
+}
+
+.detail-cover-img {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+  aspect-ratio: 2 / 3;
+}
+
+.detail-author {
+  font-size: 1.2rem;
+  color: #666;
+  margin-top: 4px;
+  margin-bottom: 20px;
+}
+
+.detail-meta-table {
+  border-collapse: collapse;
+  margin-top: 12px;
+}
+
+.detail-meta-table tr {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.detail-meta-label {
+  padding: 10px 32px 10px 0;
+  color: #888;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  vertical-align: middle;
+  min-width: 200px;
+}
+
+.detail-meta-label [uk-icon] {
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
+.detail-meta-value {
+  padding: 10px 0;
+  font-size: 1rem;
+  color: #222;
+  vertical-align: middle;
+}
+
+.detail-summary {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: #444;
+  white-space: pre-line;
+}
+
+.detail-summary-col {
+  border-left: 1px solid #e5e5e5;
+  padding-left: 30px;
+}
+
+/* ── Index card: full-card link ───────────────────────── */
+
+.book-card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.book-card-link:hover {
+  text-decoration: none;
+  color: inherit;
+}
+
+.book-card-year {
+  color: #888;
+  margin-top: 6px;
+}
+
+/* ── Index card: equal height ─────────────────────────── */
+
+#book-grid > div {
+  display: flex;
+  margin-bottom: 2.5%;
+}
+
+.book-card-link {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.book-card-link .uk-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.book-card-link .uk-card-body {
+  flex: 1;
+}
+
+/* ── Reader section (rating + remarks) ───────────────── */
+
+.reader-section {
+  border-top: 1px solid #e5e5e5;
+  padding-top: 24px;
+}
+
+.reader-section-label {
+  margin: 0 0 8px 0;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #aaa;
+}
+
+/* ── Star rating ──────────────────────────────────────── */
+
+.star-rating-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.star-rating {
+  position: relative;
+  display: inline-block;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: #ddd;
+  letter-spacing: 2px;
+}
+
+.star-rating::before {
+  content: "★★★★★★★★★★";
+}
+
+.star-rating-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  color: #f5a623;
+  letter-spacing: 2px;
+  white-space: nowrap;
+}
+
+.star-rating-fill::before {
+  content: "★★★★★★★★★★";
+}
+
+.star-label {
+  font-size: 0.95rem;
+  color: #888;
+  font-weight: 600;
+}
+
+/* ── User remarks blockquote ─────────────────────────── */
+
+.book-remarks {
+  position: relative;
+  margin: 0;
+  padding: 20px 24px 20px 56px;
+  background: #fafafa;
+  border-left: 4px solid #f5a623;
+  border-radius: 4px;
+}
+
+.book-remarks::before {
+  content: "\201C";
+  position: absolute;
+  top: 4px;
+  left: 14px;
+  font-size: 4rem;
+  line-height: 1;
+  color: #f5a623;
+  opacity: 0.5;
+  font-family: Georgia, serif;
+}
+
+.book-remarks p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.8;
+  color: #444;
+  font-style: italic;
+  white-space: pre-line;
+}
