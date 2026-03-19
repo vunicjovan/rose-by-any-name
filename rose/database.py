@@ -1,3 +1,8 @@
+import os
+
 from peewee import SqliteDatabase
 
-db = SqliteDatabase("books.db", pragmas={"foreign_keys": 1})
+db = SqliteDatabase(
+    os.environ.get("DB_PATH", "books.db"),
+    pragmas={"foreign_keys": 1},
+)
