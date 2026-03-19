@@ -108,24 +108,46 @@ body {
 }
 
 .app-logo {
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: var(--text);
   text-decoration: none;
-  letter-spacing: -0.01em;
   display: flex;
   align-items: center;
-  gap: 8px;
-  transition: color var(--transition);
+  gap: 10px;
+  transition: opacity var(--transition);
 }
 .app-logo:hover {
-  color: var(--accent);
   text-decoration: none;
+  opacity: 0.82;
 }
 
-.app-logo-rose {
-  font-size: 1.1rem;
+.app-logo-svg {
+  height: 42px;
+  width: auto;
+  flex-shrink: 0;
+}
+
+.app-logo-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
   line-height: 1;
+}
+
+.app-logo-line1 {
+  font-family: "Cinzel", Georgia, serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+.app-logo-line2 {
+  font-family: "Cinzel", Georgia, serif;
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text);
 }
 
 .nav-actions {
