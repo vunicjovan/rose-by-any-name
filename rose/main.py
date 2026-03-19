@@ -19,4 +19,9 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title="Rose by Any Name", lifespan=lifespan)
 app.include_router(books_router)
+app.mount(
+    "/vendor/uikit",
+    StaticFiles(directory="node_modules/uikit/dist"),
+    name="uikit-vendor",
+)
 app.mount("/", StaticFiles(directory="ui", html=True), name="ui")

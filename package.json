@@ -1,0 +1,7 @@
+{
+  "name": "rose-by-any-name-ui",
+  "private": true,
+  "dependencies": {
+    "uikit": "^3.0.0"
+  }
+}

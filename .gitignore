@@ -159,6 +159,9 @@ venv.bak/
 .dmypy.json
 dmypy.json
 
+# Node / frontend dependencies
+node_modules/
+
 # Pyre type checker
 .pyre/
 

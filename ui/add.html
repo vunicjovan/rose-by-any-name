@@ -14,11 +14,9 @@
         document.documentElement.setAttribute("data-theme", t);
       })();
     </script>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/uikit@3/dist/css/uikit.min.css"
-    />
+    <link rel="stylesheet" href="/vendor/uikit/css/uikit.min.css" />
     <link rel="stylesheet" href="/css/rose.css" />
+    <link rel="stylesheet" href="/css/add.css" />
   </head>
   <body>
     <nav class="app-nav">
@@ -219,12 +217,7 @@
 
         <div id="cover-preview-wrap" class="uk-margin" hidden>
           <p class="uk-text-muted uk-margin-remove-bottom">Cover preview:</p>
-          <img
-            id="cover-preview"
-            src=""
-            alt="Cover preview"
-            style="max-height: 200px; margin-top: 8px; border-radius: 4px"
-          />
+          <img id="cover-preview" src="" alt="Cover preview" />
         </div>
 
         <div id="form-error" class="uk-alert-danger uk-margin" uk-alert hidden>
@@ -249,138 +242,9 @@
       </form>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3/dist/js/uikit.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3/dist/js/uikit-icons.min.js"></script>
-    <script>
-      document
-        .getElementById("theme-toggle")
-        .addEventListener("click", function () {
-          var next =
-            document.documentElement.getAttribute("data-theme") === "dark"
-              ? "light"
-              : "dark";
-          document.documentElement.setAttribute("data-theme", next);
-          localStorage.setItem("rose-theme", next);
-        });
-    </script>
-    <script>
-      const params = new URLSearchParams(location.search);
-      const bookId = params.get("id");
-      const form = document.getElementById("book-form");
-
-      // Live cover preview
-      const coverInput = document.getElementById("cover_photo_url");
-      const previewWrap = document.getElementById("cover-preview-wrap");
-      const previewImg = document.getElementById("cover-preview");
-
-      coverInput.addEventListener("input", () => {
-        const url = coverInput.value.trim();
-        if (url) {
-          previewImg.src = url;
-          previewWrap.hidden = false;
-        } else {
-          previewWrap.hidden = true;
-        }
-      });
-
-      function showError(msg) {
-        const box = document.getElementById("form-error");
-        document.getElementById("form-error-msg").textContent = msg;
-        box.hidden = false;
-      }
-
-      function hideError() {
-        document.getElementById("form-error").hidden = true;
-      }
-
-      function getFormData() {
-        const intOrNull = (v) => (v !== "" ? parseInt(v, 10) : null);
-        return {
-          title: form.title.value.trim(),
-          author: form.author.value.trim(),
-          print_year: intOrNull(form.print_year.value),
-          reading_year: intOrNull(form.reading_year.value),
-          number_of_pages: intOrNull(form.number_of_pages.value),
-          original_language: form.original_language.value.trim() || null,
-          reading_language: form.reading_language.value.trim() || null,
-          summary: form.summary.value.trim() || null,
-          cover_photo_url: form.cover_photo_url.value.trim() || null,
-          user_rating:
-            form.user_rating.value !== ""
-              ? parseFloat(form.user_rating.value)
-              : 0,
-          user_remarks: form.user_remarks.value.trim() || null,
-        };
-      }
-
-      function fillForm(book) {
-        form.title.value = book.title ?? "";
-        form.author.value = book.author ?? "";
-        form.print_year.value = book.print_year ?? "";
-        form.reading_year.value = book.reading_year ?? "";
-        form.number_of_pages.value = book.number_of_pages ?? "";
-        form.original_language.value = book.original_language ?? "";
-        form.reading_language.value = book.reading_language ?? "";
-        form.summary.value = book.summary ?? "";
-        form.cover_photo_url.value = book.cover_photo_url ?? "";
-        form.user_rating.value = book.user_rating ?? "";
-        form.user_remarks.value = book.user_remarks ?? "";
-        if (book.cover_photo_url) {
-          previewImg.src = book.cover_photo_url;
-          previewWrap.hidden = false;
-        }
-      }
-
-      async function init() {
-        if (bookId) {
-          document.getElementById("page-title").textContent = "Edit Book";
-          document.getElementById("submit-btn").textContent = "Update Book";
-          document.getElementById("back-btn").href =
-            `/detail.html?id=${bookId}`;
-          document.getElementById("cancel-btn").href =
-            `/detail.html?id=${bookId}`;
-          const res = await fetch(`/api/books/${bookId}`);
-          if (!res.ok) {
-            showError("Book not found.");
-            return;
-          }
-          fillForm(await res.json());
-        }
-      }
-
-      form.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        hideError();
-
-        const data = getFormData();
-        if (!data.title) {
-          showError("Title is required.");
-          return;
-        }
-        if (!data.author) {
-          showError("Author is required.");
-          return;
-        }
-
-        const url = bookId ? `/api/books/${bookId}` : "/api/books/";
-        const method = bookId ? "PUT" : "POST";
-
-        const res = await fetch(url, {
-          method,
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data),
-        });
-
-        if (!res.ok) {
-          const err = await res.json().catch(() => ({}));
-          showError(err.detail ?? "Something went wrong. Please try again.");
-          return;
-        }
-
-        location.href = bookId ? `/detail.html?id=${bookId}` : "/";
-      });
-
-      init();
-    </script>
+    <script src="/vendor/uikit/js/uikit.min.js"></script>
+    <script src="/vendor/uikit/js/uikit-icons.min.js"></script>
+    <script src="/js/rose.js"></script>
+    <script src="/js/add.js"></script>
   </body>
 </html>
