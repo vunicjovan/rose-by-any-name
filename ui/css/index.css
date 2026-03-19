@@ -45,6 +45,7 @@
 /* ── Index card: full-card link ──────────────────────── */
 #book-grid > div {
   display: flex;
+  margin-bottom: 3%;
 }
 
 .book-card-link {
