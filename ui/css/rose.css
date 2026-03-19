@@ -1,222 +1,336 @@
-.cover-wrap img {
-  width: 100%;
-  height: 220px;
-  object-fit: cover;
-  display: block;
+/* ══════════════════════════════════════════════════════
+   Rose by Any Name · Design System
+   ══════════════════════════════════════════════════════ */
+
+/* ── Color tokens: Light ─────────────────────────────── */
+:root {
+  --bg: #f5f3ee;
+  --bg-card: #ffffff;
+  --bg-subtle: #eceae4;
+  --bg-input: #ffffff;
+  --text: #1c1b18;
+  --text-muted: #706d64;
+  --text-faint: #a8a49c;
+  --border: #dedbd2;
+  --border-strong: #c2bfb6;
+  --accent: #b5341e;
+  --accent-hover: #9b2c19;
+  --accent-fg: #ffffff;
+  --danger: #c0392b;
+  --danger-hover: #a93226;
+  --star: #e8a000;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 8px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.09), 0 2px 6px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 12px 48px rgba(0, 0, 0, 0.13), 0 4px 16px rgba(0, 0, 0, 0.07);
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --nav-h: 60px;
+  --transition: 160ms ease;
+  --font:
+    "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
 }
 
-.summary-clamp {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+/* ── Color tokens: Dark ──────────────────────────────── */
+[data-theme="dark"] {
+  --bg: #0e1118;
+  --bg-card: #171c27;
+  --bg-subtle: #1d2233;
+  --bg-input: #1d2233;
+  --text: #e6e3db;
+  --text-muted: #9c9990;
+  --text-faint: #5c5a54;
+  --border: #262c3c;
+  --border-strong: #36394a;
+  --accent: #e05555;
+  --accent-hover: #cc4040;
+  --accent-fg: #ffffff;
+  --danger: #e05555;
+  --danger-hover: #cc4040;
+  --star: #f0b429;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 8px rgba(0, 0, 0, 0.28);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.45), 0 2px 6px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 12px 48px rgba(0, 0, 0, 0.6), 0 4px 16px rgba(0, 0, 0, 0.4);
 }
 
-/* ── Detail page ─────────────────────────────────────── */
-
-.detail-nav {
-  border-bottom: 1px solid #e5e5e5;
+/* ── Base ────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-.detail-nav-logo {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #333;
-  gap: 6px;
+html {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  transition:
+    background var(--transition),
+    color var(--transition);
 }
 
-.detail-cover-wrap {
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
-  background: #f4f4f4;
+body {
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  margin: 0;
+  padding-top: var(--nav-h);
 }
 
-.detail-cover-img {
-  width: 100%;
-  display: block;
-  object-fit: cover;
-  aspect-ratio: 2 / 3;
-}
-
-.detail-author {
-  font-size: 1.2rem;
-  color: #666;
-  margin-top: 4px;
-  margin-bottom: 20px;
-}
-
-.detail-meta-table {
-  border-collapse: collapse;
-  margin-top: 12px;
-}
-
-.detail-meta-table tr {
-  border-bottom: 1px solid #f0f0f0;
-}
-
-.detail-meta-label {
-  padding: 10px 32px 10px 0;
-  color: #888;
-  font-size: 0.875rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  white-space: nowrap;
-  vertical-align: middle;
-  min-width: 200px;
-}
-
-.detail-meta-label [uk-icon] {
-  vertical-align: middle;
-  margin-right: 6px;
-}
-
-.detail-meta-value {
-  padding: 10px 0;
-  font-size: 1rem;
-  color: #222;
-  vertical-align: middle;
-}
-
-.detail-summary {
-  font-size: 1rem;
-  line-height: 1.8;
-  color: #444;
-  white-space: pre-line;
-}
-
-.detail-summary-col {
-  border-left: 1px solid #e5e5e5;
-  padding-left: 30px;
-}
-
-/* ── Index card: full-card link ───────────────────────── */
-
-.book-card-link {
-  display: block;
-  text-decoration: none;
-  color: inherit;
-}
-
-.book-card-link:hover {
-  text-decoration: none;
-  color: inherit;
-}
-
-.book-card-year {
-  color: #888;
-  margin-top: 6px;
-}
-
-/* ── Index card: equal height ─────────────────────────── */
-
-#book-grid > div {
+/* ── Shared Navbar ───────────────────────────────────── */
+.app-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--nav-h);
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
   display: flex;
-  margin-bottom: 2.5%;
+  align-items: center;
+  padding: 0 24px;
+  z-index: 1000;
+  box-shadow: var(--shadow-sm);
+  transition:
+    background var(--transition),
+    border-color var(--transition);
 }
 
-.book-card-link {
+.app-nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.app-logo {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: opacity var(--transition);
+}
+.app-logo:hover {
+  text-decoration: none;
+  opacity: 0.82;
+}
+
+.app-logo-svg {
+  height: 42px;
+  width: auto;
+  flex-shrink: 0;
+}
+
+.app-logo-text {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  gap: 2px;
+  line-height: 1;
 }
 
-.book-card-link .uk-card {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.book-card-link .uk-card-body {
-  flex: 1;
-}
-
-/* ── Reader section (rating + remarks) ───────────────── */
-
-.reader-section {
-  border-top: 1px solid #e5e5e5;
-  padding-top: 24px;
-}
-
-.reader-section-label {
-  margin: 0 0 8px 0;
-  font-size: 0.75rem;
-  font-weight: 700;
+.app-logo-line1 {
+  font-family: "Cinzel", Georgia, serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: #aaa;
+  color: var(--text);
 }
 
-/* ── Star rating ──────────────────────────────────────── */
+.app-logo-line2 {
+  font-family: "Cinzel", Georgia, serif;
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text);
+}
 
-.star-rating-wrap {
+.nav-actions {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.star-rating {
-  position: relative;
-  display: inline-block;
-  font-size: 1.6rem;
-  line-height: 1;
-  color: #ddd;
-  letter-spacing: 2px;
-}
-
-.star-rating::before {
-  content: "★★★★★★★★★★";
-}
-
-.star-rating-fill {
-  position: absolute;
-  top: 0;
-  left: 0;
-  overflow: hidden;
-  color: #f5a623;
-  letter-spacing: 2px;
-  white-space: nowrap;
-}
-
-.star-rating-fill::before {
-  content: "★★★★★★★★★★";
-}
-
-.star-label {
+/* ── Theme toggle ────────────────────────────────────── */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
   font-size: 0.95rem;
-  color: #888;
-  font-weight: 600;
-}
-
-/* ── User remarks blockquote ─────────────────────────── */
-
-.book-remarks {
-  position: relative;
-  margin: 0;
-  padding: 20px 24px 20px 56px;
-  background: #fafafa;
-  border-left: 4px solid #f5a623;
-  border-radius: 4px;
-}
-
-.book-remarks::before {
-  content: "\201C";
-  position: absolute;
-  top: 4px;
-  left: 14px;
-  font-size: 4rem;
   line-height: 1;
-  color: #f5a623;
-  opacity: 0.5;
-  font-family: Georgia, serif;
+  padding: 0;
+  color: var(--text-muted);
+  transition:
+    background var(--transition),
+    border-color var(--transition),
+    color var(--transition),
+    transform 200ms ease;
+}
+.theme-toggle:hover {
+  background: var(--bg-subtle);
+  border-color: var(--border-strong);
+  transform: rotate(18deg);
 }
 
-.book-remarks p {
-  margin: 0;
-  font-size: 1rem;
-  line-height: 1.8;
-  color: #444;
-  font-style: italic;
-  white-space: pre-line;
+.icon-sun {
+  display: none;
+}
+.icon-moon {
+  display: inline;
+}
+[data-theme="dark"] .icon-sun {
+  display: inline;
+}
+[data-theme="dark"] .icon-moon {
+  display: none;
+}
+
+/* ── UIKit overrides: buttons ────────────────────────── */
+.uk-button {
+  font-family: var(--font);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  border-radius: var(--radius-sm);
+  transition:
+    background var(--transition),
+    color var(--transition),
+    border-color var(--transition),
+    transform 100ms ease;
+}
+.uk-button:active {
+  transform: translateY(1px);
+}
+
+.uk-button-primary {
+  background: var(--accent) !important;
+  color: var(--accent-fg) !important;
+  border: none !important;
+}
+.uk-button-primary:hover {
+  background: var(--accent-hover) !important;
+  color: var(--accent-fg) !important;
+}
+
+.uk-button-danger {
+  background: var(--danger) !important;
+  color: #fff !important;
+  border: none !important;
+}
+.uk-button-danger:hover {
+  background: var(--danger-hover) !important;
+}
+
+.uk-button-default {
+  background: var(--bg-subtle) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+}
+.uk-button-default:hover {
+  background: var(--border) !important;
+  color: var(--text) !important;
+}
+
+.uk-button-text {
+  color: var(--text-muted) !important;
+  padding-left: 0 !important;
+}
+.uk-button-text:hover {
+  color: var(--accent) !important;
+}
+
+/* ── UIKit overrides: forms ──────────────────────────── */
+.uk-input,
+.uk-textarea,
+.uk-select {
+  font-family: var(--font);
+  background: var(--bg-input) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-sm) !important;
+  transition:
+    border-color var(--transition),
+    box-shadow var(--transition);
+}
+.uk-input:focus,
+.uk-textarea:focus,
+.uk-select:focus {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 3px rgba(181, 52, 30, 0.12) !important;
+  outline: none;
+}
+[data-theme="dark"] .uk-input:focus,
+[data-theme="dark"] .uk-textarea:focus {
+  box-shadow: 0 0 0 3px rgba(224, 85, 85, 0.15) !important;
+}
+.uk-input::placeholder,
+.uk-textarea::placeholder {
+  color: var(--text-faint) !important;
+}
+.uk-form-label {
+  color: var(--text-muted) !important;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ── UIKit overrides: cards ──────────────────────────── */
+.uk-card,
+.uk-card-default {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: var(--shadow-sm) !important;
+  border-radius: var(--radius-lg) !important;
+  transition:
+    box-shadow var(--transition),
+    transform var(--transition),
+    border-color var(--transition) !important;
+}
+.uk-card-hover:hover {
+  box-shadow: var(--shadow-md) !important;
+  border-color: var(--border-strong) !important;
+  transform: translateY(-3px);
+}
+.uk-card-body {
+  color: var(--text) !important;
+}
+.uk-card-title {
+  color: var(--text) !important;
+}
+
+/* ── UIKit overrides: modals ─────────────────────────── */
+.uk-modal-dialog {
+  background: var(--bg-card) !important;
+  color: var(--text) !important;
+  border-radius: var(--radius-md) !important;
+}
+.uk-modal-title,
+.uk-modal-dialog p {
+  color: var(--text) !important;
+}
+
+/* ── UIKit overrides: alerts ─────────────────────────── */
+.uk-alert-danger {
+  border-radius: var(--radius-md) !important;
+}
+
+/* ── UIKit overrides: divider ────────────────────────── */
+.uk-divider-small::after {
+  border-top-color: var(--border) !important;
+}
+
+/* ── UIKit overrides: spinner ────────────────────────── */
+.uk-spinner > * {
+  color: var(--accent);
 }
