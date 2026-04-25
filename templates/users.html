@@ -1,0 +1,88 @@
+{% extends "base.html" %} {% block title %}Users · Rose by Any Name{% endblock
+%} {% block content %}
+<div class="page-header">
+  <div class="page-header-inner">
+    <h1 class="page-title">Users</h1>
+    <button class="btn btn-primary" onclick="openModal('modal-add-user')">
+      + Add User
+    </button>
+  </div>
+  <input
+    class="search-input"
+    type="search"
+    placeholder="Search by name or email…"
+    hx-get="/partials/users"
+    hx-trigger="input changed delay:300ms, search"
+    hx-target="#user-list"
+    name="q"
+  />
+</div>
+
+<div id="user-list">{% include "partials/user_list.html" %}</div>
+
+<!-- Add User Modal -->
+<div id="modal-add-user" class="modal">
+  <div class="modal-backdrop" onclick="closeModal('modal-add-user')"></div>
+  <div class="modal-box">
+    <div class="modal-header">
+      <h2 class="modal-title">Add User</h2>
+      <button class="modal-close" onclick="closeModal('modal-add-user')">
+        ✕
+      </button>
+    </div>
+    <form
+      hx-post="/api/users/"
+      hx-on::after-request="if(event.detail.successful){closeModal('modal-add-user');this.reset();refreshUserList();}"
+      class="modal-form"
+    >
+      <div class="form-row">
+        <div>
+          <label class="form-label">Name *</label>
+          <input class="form-input" name="name" required />
+        </div>
+        <div>
+          <label class="form-label">Surname *</label>
+          <input class="form-input" name="surname" required />
+        </div>
+      </div>
+      <label class="form-label">Email *</label>
+      <input class="form-input" name="email" type="email" required />
+      <label class="form-label">Password *</label>
+      <input class="form-input" name="password" type="password" required />
+      <div class="modal-actions">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          onclick="closeModal('modal-add-user')"
+        >
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %} {% block extra_js %}
+<script>
+  function openModal(id) {
+    document.getElementById(id).classList.add("open");
+    document.body.style.overflow = "hidden";
+  }
+  function closeModal(id) {
+    document.getElementById(id).classList.remove("open");
+    document.body.style.overflow = "";
+  }
+  function refreshUserList() {
+    htmx.ajax("GET", "/partials/users", {
+      target: "#user-list",
+      swap: "innerHTML",
+    });
+  }
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape")
+      document
+        .querySelectorAll(".modal.open")
+        .forEach((m) => m.classList.remove("open"));
+  });
+</script>
+{% endblock %}

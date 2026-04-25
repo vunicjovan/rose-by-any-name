@@ -1,0 +1,29 @@
+{% for book in books %}
+<article class="book-card" hx-boost="true">
+  <a href="/books/{{ book.id }}" class="book-card-link">
+    <div class="book-card-body">
+      <h3 class="book-title">{{ book.title }}</h3>
+      <p class="book-author">{{ book.author }}</p>
+      <div class="book-meta">
+        {% if book.publishing_year %}<span class="badge"
+          >{{ book.publishing_year }}</span
+        >{% endif %} {% if book.number_of_pages %}<span class="badge"
+          >{{ book.number_of_pages }} pp.</span
+        >{% endif %}
+      </div>
+    </div>
+  </a>
+  <button
+    class="btn btn-danger btn-sm book-delete"
+    hx-delete="/api/books/{{ book.id }}"
+    hx-confirm="Delete '{{ book.title }}'?"
+    hx-target="closest article"
+    hx-swap="outerHTML swap:300ms"
+    aria-label="Delete book"
+  >
+    ✕
+  </button>
+</article>
+{% else %}
+<p class="empty-state">No books found.</p>
+{% endfor %}

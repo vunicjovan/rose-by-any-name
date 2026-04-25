@@ -1,0 +1,189 @@
+{% extends "base.html" %} {% block title %}{{ book.title }} · Rose by Any Name{%
+endblock %} {% block content %}
+<div class="detail-page">
+  <a href="/books" class="back-link">← Back to Books</a>
+
+  <div class="detail-card">
+    <div class="detail-header">
+      <div>
+        <h1 class="detail-title" id="book-title-display">{{ book.title }}</h1>
+        <p class="detail-subtitle" id="book-author-display">
+          {{ book.author }}
+        </p>
+      </div>
+      <button class="btn btn-secondary" onclick="toggleEdit()">Edit</button>
+    </div>
+
+    <div class="detail-meta">
+      {% if book.publishing_year %}<span class="badge"
+        >{{ book.publishing_year }}</span
+      >{% endif %} {% if book.number_of_pages %}<span class="badge"
+        >{{ book.number_of_pages }} pages</span
+      >{% endif %}
+    </div>
+
+    <!-- Edit form (hidden by default) -->
+    <form
+      id="edit-form"
+      class="edit-form hidden"
+      hx-put="/api/books/{{ book.id }}"
+      hx-target="#book-detail-content"
+      hx-swap="outerHTML"
+      hx-on::after-request="if(event.detail.successful){ toggleEdit(); updateDisplay(event.detail.xhr); }"
+    >
+      <label class="form-label">Title *</label>
+      <input
+        class="form-input"
+        name="title"
+        value="{{ book.title }}"
+        required
+      />
+      <label class="form-label">Author *</label>
+      <input
+        class="form-input"
+        name="author"
+        value="{{ book.author }}"
+        required
+      />
+      <div class="form-row">
+        <div>
+          <label class="form-label">Publishing Year</label>
+          <input
+            class="form-input"
+            name="publishing_year"
+            type="number"
+            value="{{ book.publishing_year or '' }}"
+          />
+        </div>
+        <div>
+          <label class="form-label">Pages</label>
+          <input
+            class="form-input"
+            name="number_of_pages"
+            type="number"
+            value="{{ book.number_of_pages or '' }}"
+          />
+        </div>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" onclick="toggleEdit()">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Feedbacks -->
+  <section class="feedbacks-section">
+    <div class="section-header">
+      <h2 class="section-title">Feedbacks ({{ feedbacks | length }})</h2>
+      <button
+        class="btn btn-primary btn-sm"
+        onclick="openModal('modal-add-feedback')"
+      >
+        + Add Feedback
+      </button>
+    </div>
+
+    <div id="feedback-list">
+      {% for fb in feedbacks %} {% include "partials/feedback_item.html" %} {%
+      else %}
+      <p class="empty-state">No feedbacks yet.</p>
+      {% endfor %}
+    </div>
+  </section>
+</div>
+
+<!-- Add Feedback Modal -->
+<div id="modal-add-feedback" class="modal">
+  <div class="modal-backdrop" onclick="closeModal('modal-add-feedback')"></div>
+  <div class="modal-box">
+    <div class="modal-header">
+      <h2 class="modal-title">Add Feedback</h2>
+      <button class="modal-close" onclick="closeModal('modal-add-feedback')">
+        ✕
+      </button>
+    </div>
+    <form
+      hx-post="/api/feedbacks/"
+      hx-target="#feedback-list"
+      hx-swap="innerHTML"
+      hx-on::after-request="if(event.detail.successful){closeModal('modal-add-feedback');this.reset();}"
+      class="modal-form"
+    >
+      <input type="hidden" name="book_id" value="{{ book.id }}" />
+
+      <label class="form-label">User *</label>
+      <select class="form-input" name="user_id" required>
+        <option value="">Select user…</option>
+        {% for user in users %}
+        <option value="{{ user.id }}">
+          {{ user.name }} {{ user.surname }}
+        </option>
+        {% endfor %}
+      </select>
+
+      <label class="form-label">Rating (0–10)</label>
+      <input
+        class="form-input"
+        name="rating"
+        type="number"
+        step="0.1"
+        min="0"
+        max="10"
+      />
+
+      <label class="form-label">Review</label>
+      <textarea
+        class="form-input form-textarea"
+        name="review"
+        rows="4"
+        placeholder="Write your review…"
+      ></textarea>
+
+      <label class="form-label">Year of Reading</label>
+      <input
+        class="form-input"
+        name="year_of_reading"
+        type="number"
+        min="1900"
+        max="2100"
+      />
+
+      <div class="modal-actions">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          onclick="closeModal('modal-add-feedback')"
+        >
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %} {% block extra_js %}
+<script>
+  function openModal(id) {
+    document.getElementById(id).classList.add("open");
+    document.body.style.overflow = "hidden";
+  }
+  function closeModal(id) {
+    document.getElementById(id).classList.remove("open");
+    document.body.style.overflow = "";
+  }
+  function toggleEdit() {
+    document.getElementById("edit-form").classList.toggle("hidden");
+  }
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") {
+      document
+        .querySelectorAll(".modal.open")
+        .forEach((m) => m.classList.remove("open"));
+      document.getElementById("edit-form").classList.add("hidden");
+    }
+  });
+</script>
+{% endblock %}

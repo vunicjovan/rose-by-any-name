@@ -1,0 +1,117 @@
+{% extends "base.html" %} {% block title %}Books · Rose by Any Name{% endblock
+%} {% block content %}
+<div class="page-header">
+  <div class="page-header-inner">
+    <h1 class="page-title">Books</h1>
+    <button class="btn btn-primary" onclick="openModal('modal-add-book')">
+      + Add Book
+    </button>
+  </div>
+  <input
+    class="search-input"
+    type="search"
+    placeholder="Search by title or author…"
+    hx-get="/partials/books"
+    hx-trigger="input changed delay:300ms, search"
+    hx-target="#book-list"
+    hx-include="[name='q']"
+    name="q"
+  />
+</div>
+
+<div id="book-list">{% include "partials/book_list.html" %}</div>
+
+<!-- Add Book Modal -->
+<div
+  id="modal-add-book"
+  class="modal"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="modal-add-book-title"
+>
+  <div class="modal-backdrop" onclick="closeModal('modal-add-book')"></div>
+  <div class="modal-box">
+    <div class="modal-header">
+      <h2 id="modal-add-book-title" class="modal-title">Add Book</h2>
+      <button
+        class="modal-close"
+        onclick="closeModal('modal-add-book')"
+        aria-label="Close"
+      >
+        ✕
+      </button>
+    </div>
+    <form
+      hx-post="/api/books/"
+      hx-target="#book-list"
+      hx-swap="innerHTML"
+      hx-on::after-request="if(event.detail.successful){closeModal('modal-add-book');this.reset();refreshBookList();}"
+      class="modal-form"
+    >
+      <label class="form-label" for="add-title">Title *</label>
+      <input class="form-input" id="add-title" name="title" required />
+
+      <label class="form-label" for="add-author">Author *</label>
+      <input class="form-input" id="add-author" name="author" required />
+
+      <div class="form-row">
+        <div>
+          <label class="form-label" for="add-year">Publishing Year</label>
+          <input
+            class="form-input"
+            id="add-year"
+            name="publishing_year"
+            type="number"
+            min="0"
+            max="2100"
+          />
+        </div>
+        <div>
+          <label class="form-label" for="add-pages">Pages</label>
+          <input
+            class="form-input"
+            id="add-pages"
+            name="number_of_pages"
+            type="number"
+            min="1"
+          />
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          onclick="closeModal('modal-add-book')"
+        >
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %} {% block extra_js %}
+<script>
+  function openModal(id) {
+    document.getElementById(id).classList.add("open");
+    document.body.style.overflow = "hidden";
+  }
+  function closeModal(id) {
+    document.getElementById(id).classList.remove("open");
+    document.body.style.overflow = "";
+  }
+  function refreshBookList() {
+    htmx.ajax("GET", "/partials/books", {
+      target: "#book-list",
+      swap: "innerHTML",
+    });
+  }
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape")
+      document
+        .querySelectorAll(".modal.open")
+        .forEach((m) => m.classList.remove("open"));
+  });
+</script>
+{% endblock %}

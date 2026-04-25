@@ -1,0 +1,48 @@
+{% extends "base.html" %} {% block title %}Feedbacks · Rose by Any Name{%
+endblock %} {% block content %}
+<div class="page-header">
+  <div class="page-header-inner">
+    <h1 class="page-title">All Feedbacks</h1>
+  </div>
+</div>
+
+<div class="feedbacks-list">
+  {% for fb in feedbacks %}
+  <div class="feedback-item">
+    <div class="feedback-header">
+      <a href="/books/{{ fb.book.id }}" class="feedback-book-title"
+        >{{ fb.book.title }}</a
+      >
+      <span class="feedback-sep">·</span>
+      <a href="/users/{{ fb.user.id }}" class="feedback-user"
+        >{{ fb.user.name }} {{ fb.user.surname }}</a
+      >
+      {% if fb.rating is not none %}
+      <span class="feedback-rating"
+        >⭐ {{ "%.1f"|format(fb.rating) }} / 10</span
+      >
+      {% endif %} {% if fb.year_of_reading %}<span class="badge"
+        >{{ fb.year_of_reading }}</span
+      >{% endif %}
+      <button
+        class="btn btn-danger btn-sm"
+        hx-delete="/api/feedbacks/{{ fb.id }}"
+        hx-confirm="Delete this feedback?"
+        hx-target="closest .feedback-item"
+        hx-swap="outerHTML swap:300ms"
+        style="margin-left: auto"
+      >
+        ✕
+      </button>
+    </div>
+    {% if fb.review %}
+    <p class="feedback-review">{{ fb.review }}</p>
+    {% endif %}
+  </div>
+  {% else %}
+  <p class="empty-state">
+    No feedbacks yet. Add some from a book's detail page.
+  </p>
+  {% endfor %}
+</div>
+{% endblock %}

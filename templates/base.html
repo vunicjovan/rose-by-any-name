@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>A Rose By Any Name</title>
+    <title>{% block title %}Rose by Any Name{% endblock %}</title>
     <script>
       (function () {
         var t =
@@ -17,13 +17,20 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@400;500;600&display=swap"
     />
-    <link rel="stylesheet" href="/vendor/uikit/css/uikit.min.css" />
-    <link rel="stylesheet" href="/css/rose.css" />
-    <link rel="stylesheet" href="/css/index.css" />
+    <link rel="stylesheet" href="/static/css/rose.css" />
+    {% block extra_css %}{% endblock %}
+    <script
+      src="https://unpkg.com/htmx.org@2.0.4/dist/htmx.min.js"
+      defer
+    ></script>
+    <script
+      src="https://unpkg.com/htmx-ext-json-enc@2.0.1/json-enc.js"
+      defer
+    ></script>
   </head>
-  <body>
+  <body hx-ext="json-enc">
     <nav class="app-nav">
       <div class="app-nav-inner">
         <a href="/" class="app-logo">
@@ -80,68 +87,75 @@
               d="M23 68 Q35 72 47 68 Q40 70 35 71 Q30 70 23 68Z"
               fill="#2d6a2e"
             />
+            <ellipse
+              cx="35"
+              cy="38"
+              rx="18"
+              ry="15"
+              fill="url(#rose-grad)"
+              opacity="0.18"
+            />
             <path
-              d="M35 8 C22 9 10 23 10 42 C10 58 21 71 35 71 C49 71 60 58 60 42 C60 23 48 9 35 8Z"
+              d="M35 68 Q20 58 18 42 Q22 30 35 28 Q48 30 52 42 Q50 58 35 68Z"
               fill="url(#rose-grad)"
             />
             <path
-              d="M36 10 C46 15 54 29 54 45"
-              stroke="white"
-              stroke-width="1.7"
-              fill="none"
-              opacity="0.62"
-              stroke-linecap="round"
+              d="M35 68 Q28 55 26 44 Q28 34 35 32 Q42 34 44 44 Q42 55 35 68Z"
+              fill="url(#rose-grad)"
+              opacity="0.55"
             />
             <path
-              d="M29 10 C19 16 13 29 14 45"
-              stroke="white"
-              stroke-width="1.2"
-              fill="none"
-              opacity="0.42"
-              stroke-linecap="round"
-            />
-            <path
-              d="M32 8 C37 8 43 12 47 18"
-              stroke="white"
-              stroke-width="1.0"
-              fill="none"
-              opacity="0.5"
-              stroke-linecap="round"
+              d="M35 52 Q27 46 27 38 Q30 30 35 29 Q40 30 43 38 Q43 46 35 52Z"
+              fill="url(#rose-grad)"
+              opacity="0.4"
             />
           </svg>
-          <span class="app-logo-text">
-            <span class="app-logo-line1">A Rose</span>
-            <span class="app-logo-line2">By Any Name</span>
-          </span>
+          <div class="app-logo-text">
+            <span class="app-logo-line1">Rose</span>
+            <span class="app-logo-line2">by any name</span>
+          </div>
         </a>
+        <div class="nav-links">
+          <a
+            href="/books"
+            class="nav-link {% if request.url.path.startswith('/books') %}active{% endif %}"
+            >Books</a
+          >
+          <a
+            href="/users"
+            class="nav-link {% if request.url.path.startswith('/users') %}active{% endif %}"
+            >Users</a
+          >
+          <a
+            href="/feedbacks"
+            class="nav-link {% if request.url.path.startswith('/feedbacks') %}active{% endif %}"
+            >Feedbacks</a
+          >
+        </div>
         <div class="nav-actions">
-          <a href="/add.html" class="uk-button uk-button-primary">+ Add Book</a>
           <button
             class="theme-toggle"
-            id="theme-toggle"
-            title="Toggle dark / light mode"
+            onclick="toggleTheme()"
+            aria-label="Toggle theme"
           >
-            <span class="icon-moon">☾</span>
-            <span class="icon-sun">☀</span>
+            <span class="icon-sun">☀️</span>
+            <span class="icon-moon">🌙</span>
           </button>
         </div>
       </div>
     </nav>
 
-    <div class="uk-container" style="padding-top: 40px">
-      <div class="page-header">
-        <h1 class="page-title">A Rose By Any Name</h1>
-      </div>
-      <div
-        id="book-grid"
-        class="uk-grid-match uk-child-width-1-2@s uk-child-width-1-3@m uk-child-width-1-4@l"
-        uk-grid
-      ></div>
-    </div>
+    <main class="main-content">{% block content %}{% endblock %}</main>
 
-    <script src="/vendor/uikit/js/uikit.min.js"></script>
-    <script src="/vendor/uikit/js/uikit-icons.min.js"></script>
-    <script src="/js/rose.js"></script>
-    <script src="/js/index.js"></script>
+    <script>
+      function toggleTheme() {
+        var html = document.documentElement;
+        var current = html.getAttribute("data-theme");
+        var next = current === "dark" ? "light" : "dark";
+        html.setAttribute("data-theme", next);
+        localStorage.setItem("rose-theme", next);
+      }
+    </script>
+    {% block extra_js %}{% endblock %}
   </body>
 </html>

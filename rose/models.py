@@ -1,25 +1,55 @@
-from peewee import CharField, FloatField, IntegerField, Model, TextField
+from datetime import datetime
 
-from .database import db
+from sqlalchemy import Column, DateTime, Float, ForeignKey, Integer, String, Text
+from sqlalchemy.orm import relationship
 
-
-class Book(Model):
-    title = CharField()
-    author = CharField()
-    print_year = IntegerField(null=True)
-    reading_year = IntegerField(null=True)
-    number_of_pages = IntegerField(null=True)
-    original_language = CharField(null=True)
-    reading_language = CharField(null=True)
-    summary = TextField(null=True)
-    cover_photo_url = CharField(null=True)
-    user_rating = FloatField(default=0)
-    user_remarks = TextField(null=True)
-
-    class Meta:
-        database = db
+from .database import Base
 
 
-def create_tables():
-    with db:
-        db.create_tables([Book], safe=True)
+class User(Base):
+    __tablename__ = "users"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String(100), nullable=False)
+    surname = Column(String(100), nullable=False)
+    email = Column(String(255), unique=True, nullable=False, index=True)
+    password = Column(String(255), nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    feedbacks = relationship(
+        "Feedback", back_populates="user", cascade="all, delete-orphan"
+    )
+
+
+class Book(Base):
+    __tablename__ = "books"
+
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String(255), nullable=False)
+    author = Column(String(255), nullable=False)
+    publishing_year = Column(Integer, nullable=True)
+    number_of_pages = Column(Integer, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    feedbacks = relationship(
+        "Feedback", back_populates="book", cascade="all, delete-orphan"
+    )
+
+
+class Feedback(Base):
+    __tablename__ = "feedbacks"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    book_id = Column(Integer, ForeignKey("books.id"), nullable=False)
+    rating = Column(Float, nullable=True)
+    review = Column(Text, nullable=True)
+    year_of_reading = Column(Integer, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    user = relationship("User", back_populates="feedbacks")
+    book = relationship("Book", back_populates="feedbacks")
+
+
+def create_tables(engine):
+    Base.metadata.create_all(bind=engine)

@@ -1,0 +1,24 @@
+{% extends "base.html" %} {% block title %}Rose by Any Name{% endblock %} {%
+block content %}
+<div class="hero">
+  <h1 class="hero-title">Rose by Any Name</h1>
+  <p class="hero-subtitle">
+    Your personal reading journal. Track books, share reviews, discover what
+    others are reading.
+  </p>
+  <div class="hero-actions">
+    <a href="/books" class="btn btn-primary btn-lg">Browse Books</a>
+    <a href="/users" class="btn btn-secondary btn-lg">Users</a>
+  </div>
+</div>
+
+<section class="home-section">
+  <h2 class="section-title">Recent Books</h2>
+  <div id="book-list">{% include "partials/book_list.html" %}</div>
+  {% if books|length >= 6 %}
+  <div class="see-all">
+    <a href="/books" class="btn btn-secondary">See all books →</a>
+  </div>
+  {% endif %}
+</section>
+{% endblock %}

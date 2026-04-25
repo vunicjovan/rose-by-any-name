@@ -1,0 +1,23 @@
+<div class="feedback-item">
+  <div class="feedback-header">
+    <span class="feedback-user">{{ fb.user.name }} {{ fb.user.surname }}</span>
+    {% if fb.rating is not none %}
+    <span class="feedback-rating">⭐ {{ "%.1f"|format(fb.rating) }} / 10</span>
+    {% endif %} {% if fb.year_of_reading %}
+    <span class="badge">{{ fb.year_of_reading }}</span>
+    {% endif %}
+    <button
+      class="btn btn-danger btn-sm"
+      hx-delete="/api/feedbacks/{{ fb.id }}"
+      hx-confirm="Delete this feedback?"
+      hx-target="closest .feedback-item"
+      hx-swap="outerHTML swap:300ms"
+      style="margin-left: auto"
+    >
+      ✕
+    </button>
+  </div>
+  {% if fb.review %}
+  <p class="feedback-review">{{ fb.review }}</p>
+  {% endif %}
+</div>

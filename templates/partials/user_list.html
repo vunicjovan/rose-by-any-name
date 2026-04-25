@@ -1,0 +1,23 @@
+{% for user in users %}
+<article class="user-card">
+  <a href="/users/{{ user.id }}" class="user-card-link">
+    <div class="user-avatar">{{ user.name[0] }}{{ user.surname[0] }}</div>
+    <div class="user-info">
+      <h3 class="user-name">{{ user.name }} {{ user.surname }}</h3>
+      <p class="user-email">{{ user.email }}</p>
+    </div>
+  </a>
+  <button
+    class="btn btn-danger btn-sm"
+    hx-delete="/api/users/{{ user.id }}"
+    hx-confirm="Delete user '{{ user.name }} {{ user.surname }}'?"
+    hx-target="closest article"
+    hx-swap="outerHTML swap:300ms"
+    aria-label="Delete user"
+  >
+    ✕
+  </button>
+</article>
+{% else %}
+<p class="empty-state">No users found.</p>
+{% endfor %}

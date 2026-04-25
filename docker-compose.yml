@@ -7,7 +7,7 @@ services:
       - rose-data:/data
     restart: unless-stopped
     environment:
-      - DB_PATH=/data/books.db
+      - DB_PATH=/data/rose.db
 
 volumes:
   rose-data:
