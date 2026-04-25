@@ -11,7 +11,9 @@ endblock %} {% block content %}
           {{ book.author }}
         </p>
       </div>
+      {% if current_user %}
       <button class="btn btn-secondary" onclick="toggleEdit()">Edit</button>
+      {% endif %}
     </div>
 
     <div class="detail-meta">
@@ -78,12 +80,14 @@ endblock %} {% block content %}
   <section class="feedbacks-section">
     <div class="section-header">
       <h2 class="section-title">Feedbacks ({{ feedbacks | length }})</h2>
+      {% if current_user %}
       <button
         class="btn btn-primary btn-sm"
         onclick="openModal('modal-add-feedback')"
       >
         + Add Feedback
       </button>
+      {% endif %}
     </div>
 
     <div id="feedback-list">

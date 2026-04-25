@@ -116,23 +116,42 @@
           </div>
         </a>
         <div class="nav-links">
+          {% if current_user %}
           <a
             href="/books"
             class="nav-link {% if request.url.path.startswith('/books') %}active{% endif %}"
             >Books</a
           >
+          {% if current_user.is_admin %}
           <a
             href="/users"
             class="nav-link {% if request.url.path.startswith('/users') %}active{% endif %}"
             >Users</a
           >
+          {% endif %}
           <a
             href="/feedbacks"
             class="nav-link {% if request.url.path.startswith('/feedbacks') %}active{% endif %}"
             >Feedbacks</a
           >
+          {% endif %}
         </div>
         <div class="nav-actions">
+          {% if current_user %}
+          <a href="/profile" class="nav-user">
+            <span class="nav-user-avatar"
+              >{{ current_user.name[0] }}{% if current_user.surname %}{{
+              current_user.surname[0] }}{% endif %}</span
+            >
+            <span class="nav-user-name">{{ current_user.name }}</span>
+            {% if current_user.is_admin %}
+            <span class="badge badge-admin">Admin</span>
+            {% endif %}
+          </a>
+          <a href="/logout" class="btn btn-secondary btn-sm">Sign out</a>
+          {% else %}
+          <a href="/login" class="btn btn-primary btn-sm">Sign in</a>
+          {% endif %}
           <button
             class="theme-toggle"
             onclick="toggleTheme()"
@@ -155,6 +174,13 @@
         html.setAttribute("data-theme", next);
         localStorage.setItem("rose-theme", next);
       }
+      // Redirect to login on htmx 401 responses
+      document.addEventListener("htmx:responseError", function (evt) {
+        if (evt.detail.xhr.status === 401) {
+          window.location.href =
+            "/login?next=" + encodeURIComponent(window.location.pathname);
+        }
+      });
     </script>
     {% block extra_js %}{% endblock %}
   </body>

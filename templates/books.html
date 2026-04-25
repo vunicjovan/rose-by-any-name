@@ -3,9 +3,11 @@
 <div class="page-header">
   <div class="page-header-inner">
     <h1 class="page-title">Books</h1>
+    {% if current_user %}
     <button class="btn btn-primary" onclick="openModal('modal-add-book')">
       + Add Book
     </button>
+    {% endif %}
   </div>
   <input
     class="search-input"

@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign In · Rose by Any Name</title>
+    <script>
+      (function () {
+        var t =
+          localStorage.getItem("rose-theme") ||
+          (window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light");
+        document.documentElement.setAttribute("data-theme", t);
+      })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@400;500;600&display=swap"
+    />
+    <link rel="stylesheet" href="/static/css/rose.css" />
+  </head>
+  <body class="login-body">
+    <div class="login-page">
+      <div class="login-card">
+        <div class="login-logo">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 70 96"
+            aria-hidden="true"
+            style="height: 56px; width: auto"
+          >
+            <defs>
+              <radialGradient id="rose-grad" cx="44%" cy="30%" r="70%">
+                <stop offset="0%" stop-color="#f5924a" />
+                <stop offset="20%" stop-color="#ea3f70" />
+                <stop offset="48%" stop-color="#c42578" />
+                <stop offset="75%" stop-color="#9b1a8c" />
+                <stop offset="100%" stop-color="#6c1280" />
+              </radialGradient>
+              <linearGradient id="lleaf" x1="100%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#80c883" />
+                <stop offset="100%" stop-color="#2d6a2e" />
+              </linearGradient>
+              <linearGradient id="rleaf" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#80c883" />
+                <stop offset="100%" stop-color="#2d6a2e" />
+              </linearGradient>
+            </defs>
+            <path
+              d="M34.5 71 Q33.5 83 33 94"
+              stroke="#2d6a2e"
+              stroke-width="2.5"
+              fill="none"
+              stroke-linecap="round"
+            />
+            <path d="M34 82 Q46 77 52 67 Q42 70 34 82Z" fill="url(#rleaf)" />
+            <path d="M34 73 Q22 67 15 58 Q25 62 34 73Z" fill="url(#lleaf)" />
+            <path d="M28 65 Q25 56 30 53 Q32 60 28 65Z" fill="#2d6a2e" />
+            <path d="M35 64 Q32 54 35 50 Q38 54 35 64Z" fill="#36843a" />
+            <path d="M42 65 Q45 56 40 53 Q38 60 42 65Z" fill="#2d6a2e" />
+            <path
+              d="M35 68 Q20 58 18 42 Q22 30 35 28 Q48 30 52 42 Q50 58 35 68Z"
+              fill="url(#rose-grad)"
+            />
+            <path
+              d="M35 68 Q28 55 26 44 Q28 34 35 32 Q42 34 44 44 Q42 55 35 68Z"
+              fill="url(#rose-grad)"
+              opacity="0.55"
+            />
+            <path
+              d="M35 52 Q27 46 27 38 Q30 30 35 29 Q40 30 43 38 Q43 46 35 52Z"
+              fill="url(#rose-grad)"
+              opacity="0.4"
+            />
+          </svg>
+          <div>
+            <div class="app-logo-line1">Rose</div>
+            <div class="app-logo-line2">by any name</div>
+          </div>
+        </div>
+
+        <h1 class="login-title">Sign in</h1>
+
+        {% if error %}
+        <div class="login-error" role="alert">{{ error }}</div>
+        {% endif %}
+
+        <form method="post" action="/login" class="login-form">
+          <input type="hidden" name="next" value="{{ next }}" />
+
+          <label class="form-label" for="login-email">Email</label>
+          <input
+            class="form-input"
+            id="login-email"
+            name="email"
+            type="email"
+            autocomplete="email"
+            autofocus
+            required
+          />
+
+          <label class="form-label" for="login-password">Password</label>
+          <input
+            class="form-input"
+            id="login-password"
+            name="password"
+            type="password"
+            autocomplete="current-password"
+            required
+          />
+
+          <button type="submit" class="btn btn-primary login-submit">
+            Sign in
+          </button>
+        </form>
+      </div>
+
+      <button
+        class="theme-toggle login-theme-toggle"
+        onclick="toggleTheme()"
+        aria-label="Toggle theme"
+      >
+        <span class="icon-sun">☀️</span>
+        <span class="icon-moon">🌙</span>
+      </button>
+    </div>
+
+    <script>
+      function toggleTheme() {
+        var html = document.documentElement;
+        var next =
+          html.getAttribute("data-theme") === "dark" ? "light" : "dark";
+        html.setAttribute("data-theme", next);
+        localStorage.setItem("rose-theme", next);
+      }
+    </script>
+  </body>
+</html>

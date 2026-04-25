@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
+from ..auth import require_login
 from ..database import get_db
 from ..models import Book, Feedback, User
 from ..schemas import FeedbackCreate, FeedbackOut, FeedbackUpdate
@@ -9,12 +10,14 @@ router = APIRouter(prefix="/api/feedbacks", tags=["feedbacks"])
 
 
 @router.get("/", response_model=list[FeedbackOut])
-def list_feedbacks(db: Session = Depends(get_db)):
+def list_feedbacks(db: Session = Depends(get_db), _: User = Depends(require_login)):
     return db.query(Feedback).order_by(Feedback.created_at.desc()).all()
 
 
 @router.get("/{feedback_id}", response_model=FeedbackOut)
-def get_feedback(feedback_id: int, db: Session = Depends(get_db)):
+def get_feedback(
+    feedback_id: int, db: Session = Depends(get_db), _: User = Depends(require_login)
+):
     fb = db.get(Feedback, feedback_id)
     if not fb:
         raise HTTPException(status_code=404, detail="Feedback not found")
@@ -22,7 +25,11 @@ def get_feedback(feedback_id: int, db: Session = Depends(get_db)):
 
 
 @router.post("/", response_model=FeedbackOut, status_code=201)
-def create_feedback(data: FeedbackCreate, db: Session = Depends(get_db)):
+def create_feedback(
+    data: FeedbackCreate,
+    db: Session = Depends(get_db),
+    _: User = Depends(require_login),
+):
     if not db.get(User, data.user_id):
         raise HTTPException(status_code=404, detail="User not found")
     if not db.get(Book, data.book_id):
@@ -36,7 +43,10 @@ def create_feedback(data: FeedbackCreate, db: Session = Depends(get_db)):
 
 @router.put("/{feedback_id}", response_model=FeedbackOut)
 def update_feedback(
-    feedback_id: int, data: FeedbackUpdate, db: Session = Depends(get_db)
+    feedback_id: int,
+    data: FeedbackUpdate,
+    db: Session = Depends(get_db),
+    _: User = Depends(require_login),
 ):
     fb = db.get(Feedback, feedback_id)
     if not fb:
@@ -49,7 +59,9 @@ def update_feedback(
 
 
 @router.delete("/{feedback_id}", status_code=204)
-def delete_feedback(feedback_id: int, db: Session = Depends(get_db)):
+def delete_feedback(
+    feedback_id: int, db: Session = Depends(get_db), _: User = Depends(require_login)
+):
     fb = db.get(Feedback, feedback_id)
     if not fb:
         raise HTTPException(status_code=404, detail="Feedback not found")

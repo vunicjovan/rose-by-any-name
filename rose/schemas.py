@@ -8,6 +8,7 @@ class UserCreate(BaseModel):
     surname: str
     email: EmailStr
     password: str
+    is_admin: bool = False
 
     @field_validator("name", "surname")
     @classmethod
@@ -37,6 +38,7 @@ class UserOut(BaseModel):
     name: str
     surname: str
     email: str
+    is_admin: bool
 
     model_config = {"from_attributes": True}
 

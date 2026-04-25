@@ -13,6 +13,7 @@
       </div>
     </div>
   </a>
+  {% if current_user %}
   <button
     class="btn btn-danger btn-sm book-delete"
     hx-delete="/api/books/{{ book.id }}"
@@ -23,6 +24,7 @@
   >
     ✕
   </button>
+  {% endif %}
 </article>
 {% else %}
 <p class="empty-state">No books found.</p>

@@ -14,7 +14,8 @@ RUN uv pip install --system --no-cache \
     "jinja2>=3.1.0" \
     "pydantic[email]>=2.7.0" \
     "python-multipart>=0.0.9" \
-    "aiosqlite>=0.20.0"
+    "aiosqlite>=0.20.0" \
+    "itsdangerous>=2.1.0"
 
 # Copy application source
 COPY rose/ ./rose/

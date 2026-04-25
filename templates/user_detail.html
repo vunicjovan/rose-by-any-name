@@ -6,13 +6,24 @@ Rose by Any Name{% endblock %} {% block content %}
   <div class="detail-card">
     <div class="detail-header">
       <div class="user-avatar user-avatar-lg">
-        {{ user.name[0] }}{{ user.surname[0] }}
+        {{ user.name[0] }}{% if user.surname %}{{ user.surname[0] }}{% endif %}
       </div>
       <div>
         <h1 class="detail-title">{{ user.name }} {{ user.surname }}</h1>
         <p class="detail-subtitle">{{ user.email }}</p>
       </div>
+      {% if current_user.is_admin or user.id == current_user.id %}
       <button class="btn btn-secondary" onclick="toggleEdit()">Edit</button>
+      {% if current_user.is_admin and user.id != current_user.id %}
+      <button
+        class="btn btn-danger btn-sm"
+        hx-delete="/api/users/{{ user.id }}"
+        hx-confirm="Delete user '{{ user.name }} {{ user.surname }}'?"
+        hx-on::after-request="if(event.detail.successful){ window.location.href='/users'; }"
+      >
+        Delete user
+      </button>
+      {% endif %} {% endif %}
     </div>
 
     <form
